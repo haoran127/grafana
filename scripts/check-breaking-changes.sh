@@ -27,7 +27,7 @@ while IFS= read -r line; do
     echo ""
     echo "${PACKAGE_NAME}"
     echo "================================================="
-    node /Users/levente.balogh/grafana/poc3/dist/bin.js compare --prev $PREV --current $CURRENT
+    node ./tools/poc3/index.js compare --prev $PREV --current $CURRENT
 
     # Check if the comparison returned with a non-zero exit code
     # Record the output, maybe with some additional information
