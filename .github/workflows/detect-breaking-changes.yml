@@ -31,6 +31,7 @@ jobs:
     - name: Comment on PR
       uses: marocchino/sticky-pull-request-comment@v2
       with:
+        number: ${{ steps.finder.outputs.pr }}
         message: |
           ${{ env.BREAKING_CHANGES_MESSAGE }}
 
