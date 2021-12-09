@@ -28,8 +28,13 @@ jobs:
     - name: Detect breaking changes
       run: ./scripts/check-breaking-changes.sh 
 
-    - uses: marocchino/sticky-pull-request-comment@v2
+    - name: Comment on PR
+      uses: marocchino/sticky-pull-request-comment@v2
       with:
         message: |
           ${{ env.BREAKING_CHANGES_MESSAGE }}
+
+    - name: Exit
+      run: exit ${{ env.BREAKING_CHANGES_IS_BREAKING }}
+      shell: bash
 
