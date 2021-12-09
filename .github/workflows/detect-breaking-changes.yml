@@ -4,7 +4,7 @@ on: push
 
 jobs:
   build:
-    name: Build packages
+    name: Detecting breaking changes
     runs-on: ubuntu-latest
 
     steps:
@@ -27,4 +27,9 @@ jobs:
 
     - name: Detect breaking changes
       run: ./scripts/check-breaking-changes.sh 
+
+    - uses: marocchino/sticky-pull-request-comment@v2
+      with:
+        message: |
+          ${{ env.BREAKING_CHANGES_MESSAGE }} ${{$BREAKING_CHANGES_MESSAGE}}
 

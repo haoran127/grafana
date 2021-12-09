@@ -49,3 +49,7 @@ done <<< "$PACKAGES"
 echo -e "\n\n"
 echo -e $MESSAGE
 exit $EXIT_CODE
+
+# "Export" the message to an environment variable
+echo "BREAKING_CHANGES_IS_BREAKING=$EXIT_CODE" >> $GITHUB_ENV
+echo "BREAKING_CHANGES_MESSAGE=$MESSAGE" >> $GITHUB_ENV
