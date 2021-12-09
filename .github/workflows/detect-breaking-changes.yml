@@ -28,6 +28,9 @@ jobs:
     - name: Detect breaking changes
       run: ./scripts/check-breaking-changes.sh 
 
+    - uses: jwalton/gh-find-current-pr@v1
+      id: finder
+
     - name: Comment on PR
       uses: marocchino/sticky-pull-request-comment@v2
       with:
