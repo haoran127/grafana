@@ -3,17 +3,10 @@
 PACKAGES=$(lerna list -p -l)
 PACKAGE_NAMES=()
 EXIT_CODE=0
-
-arraySet() { 
-    local array=$1 index=$2 value=$3
-    declare "$array_$index=$value"
-}
-
-arrayGet() { 
-    local array=$1 index=$2
-    local i="${array}_$index"
-    printf '%s' "${!i}"
-}
+MESSAGE=""
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+ENDCOLOR=$(tput sgr0)
 
 # Loop through packages
 while IFS= read -r line; do
@@ -38,7 +31,6 @@ while IFS= read -r line; do
 
     # Check if the comparison returned with a non-zero exit code
     # Record the output, maybe with some additional information
-    # declare "RETURN_VALUES_$PACKAGE_NAME=$?"
     STATUS=$?
 
     # Final exit code
@@ -46,24 +38,14 @@ while IFS= read -r line; do
     if [ $STATUS -gt 0 ]
     then
         EXIT_CODE=1
-    fi
+        MESSAGE="${MESSAGE}${RED} ✘ ${PACKAGE_NAME}: possible breaking changes${ENDCOLOR}\n"    
+    else 
+        MESSAGE="${MESSAGE}${GREEN} ✔ ${PACKAGE_NAME}: no breaking changes\n${ENDCOLOR}"    
+    fi    
 
-
-    # Final message
-
-    # echo "Path: ${PACKAGE_PATH}"
-    # echo "Name: ${PACKAGE_NAME}"
-    # echo "Version: ${PACKAGE_VERSION}"
-    # echo "--prev: $PREV"
-    # echo "--current: $CURRENT"
-    # echo ""
-    # echo ""
 done <<< "$PACKAGES"
 
-# Loop through the outputs  
-    # 1) format a final message
-    # 2) compute final exit code
-
-# Export final message as an environment variable
-
-# Return with the computed exit code
+# Final message
+echo -e "\n\n"
+echo -e $MESSAGE
+exit $EXIT_CODE
