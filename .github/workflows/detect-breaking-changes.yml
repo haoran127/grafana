@@ -31,5 +31,5 @@ jobs:
     - uses: marocchino/sticky-pull-request-comment@v2
       with:
         message: |
-          ${{ env.BREAKING_CHANGES_MESSAGE }} ${{$BREAKING_CHANGES_MESSAGE}}
+          ${{ env.BREAKING_CHANGES_MESSAGE }}
 
