@@ -10,14 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 16
-        registry-url: https://registry.npmjs.org/
-
-    - name: Setup yarn
-      run: npm install -g yarn
+    - uses: c-hive/gha-yarn-cache@v2
 
     - name: Yarn install
       run: yarn install --immutable
@@ -32,11 +25,16 @@ jobs:
       id: finder
 
     - name: Comment on PR
+      if: ${{ env.BREAKING_CHANGES_IS_BREAKING == '1' || env.BREAKING_CHANGES_IS_BREAKING == 1 }}
       uses: marocchino/sticky-pull-request-comment@v2
       with:
         number: ${{ steps.finder.outputs.pr }}
         message: |
+          **Possible breaking changes**
+
           ${{ env.BREAKING_CHANGES_MESSAGE }}
+
+          [More info](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
     - name: Exit
       run: exit ${{ env.BREAKING_CHANGES_IS_BREAKING }}

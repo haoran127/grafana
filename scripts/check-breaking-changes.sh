@@ -38,18 +38,14 @@ while IFS= read -r line; do
     if [ $STATUS -gt 0 ]
     then
         EXIT_CODE=1
-        MESSAGE="${MESSAGE}${RED} ✘ ${PACKAGE_NAME}: possible breaking changes${ENDCOLOR}\n"    
+        MESSAGE="${MESSAGE}${RED} ✘ ${PACKAGE_NAME}: possible breaking changes${ENDCOLOR}<br />"    
     else 
-        MESSAGE="${MESSAGE}${GREEN} ✔ ${PACKAGE_NAME}: no breaking changes\n${ENDCOLOR}"    
+        MESSAGE="${MESSAGE}${GREEN} ✔ ${PACKAGE_NAME}: no breaking changes<br />${ENDCOLOR}"    
     fi    
 
 done <<< "$PACKAGES"
 
-# Final message
-echo -e "\n\n"
-echo -e $MESSAGE
-
-# "Export" the message to an environment variable
+# "Export" the message to an environment variable that can be used across Github Actions steps
 echo "BREAKING_CHANGES_IS_BREAKING=$EXIT_CODE" >> $GITHUB_ENV
 echo "BREAKING_CHANGES_MESSAGE=$MESSAGE" >> $GITHUB_ENV
 
